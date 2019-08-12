@@ -15,4 +15,5 @@
 
 class Mewl < ApplicationRecord
   belongs_to :user
+  validates_length_of :text, maximum: 280
 end
