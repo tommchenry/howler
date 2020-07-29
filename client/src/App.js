@@ -61,10 +61,16 @@ class App extends Component {
         </Grid>
       </Container>
     : <Container text>
-        <Dimmer active inverted>
-          <Loader content='Loading' />
-        </Dimmer>
-      <NewMewlForm onNewMewl={this.addNewMewl} />
+        <Grid>
+          <Grid.Column width={7}>
+            <NewMewlForm onNewMewl={this.addNewMewl} />
+          </Grid.Column>
+          <Grid.Column width={9}>
+            <Dimmer active inverted>
+              <Loader content='Loading' />
+            </Dimmer>
+          </Grid.Column>
+        </Grid>
       </Container>
   }
 }
