@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Item, Dimmer, Loader } from 'semantic-ui-react'
+import { Container, Item, Dimmer, Loader, Grid } from 'semantic-ui-react'
 import NewMewlForm from './NewMewlForm.js'
 import axios from 'axios'
 
@@ -39,20 +39,26 @@ class App extends Component {
     let {mewls} = this.state
     return mewls
     ? <Container text>
-        <Item.Group divided unstackable>
-          {Object.keys(mewls).map((key) => (
-            <Item>
-              <Item.Content>
-              <Item.Header>@{mewls[key].user.username}</Item.Header>
-              <Item.Meta>{mewls[key].user.name}</Item.Meta>
-              <Item.Description>
-                <span>{mewls[key].text}</span>
-              </Item.Description>
-              </Item.Content>
-            </Item>
-          ))}
-        </Item.Group>
-      <NewMewlForm onNewMewl={this.addNewMewl} />
+        <Grid>
+          <Grid.Column width={7}>
+            <NewMewlForm onNewMewl={this.addNewMewl} />
+          </Grid.Column>
+          <Grid.Column width={9}>
+            <Item.Group divided unstackable>
+              {Object.keys(mewls).map((key) => (
+                <Item>
+                  <Item.Content>
+                  <Item.Header>@{mewls[key].user.username}</Item.Header>
+                  <Item.Meta>{mewls[key].user.name}</Item.Meta>
+                  <Item.Description>
+                    <span>{mewls[key].text}</span>
+                  </Item.Description>
+                  </Item.Content>
+                </Item>
+              ))}
+            </Item.Group>
+          </Grid.Column>
+        </Grid>
       </Container>
     : <Container text>
         <Dimmer active inverted>

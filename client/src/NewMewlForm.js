@@ -1,21 +1,23 @@
 import React from 'react';
+import { Button, Form, TextArea, Header } from 'semantic-ui-react'
 
 const NewMewlForm = ({onNewMewl = f => f}) => {
     let text
     const submit = e => {
         e.preventDefault()
-        onNewMewl(text.value)
-        text.value = ''
+        onNewMewl(text.ref.current.value)
+        text.ref.current.value = ''
         text.focus()
     }
 
     return (
-        <form onSubmit={submit}>
-            <input  ref={input => text = input}
+        <Form onSubmit={submit}>
+            <Header size='huge'>Howler</Header>
+            <TextArea ref={input => text = input}
                     type="text"
                     placeholder="Mewl it into the void..." required />
-            <button>Mewl</button>
-        </form>
+            <Button color='red'>Mewl</Button>
+        </Form>
     )
 }
 
