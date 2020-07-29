@@ -1,31 +1,37 @@
 import React, { Component } from 'react'
 import { Container, Item, Dimmer, Loader } from 'semantic-ui-react'
+import NewMewlForm from './NewMewlForm.js'
+import axios from 'axios'
 
 class App extends Component {
   constructor () {
     super()
-    this.state = {}
-    this.getMewls = this.getMewls.bind(this)
+    this.state = {
+      mewls: []
+    }
+    this.addNewMewl = this.addNewMewl.bind(this)
   }
 
   componentDidMount () {
-    this.getMewls()
-  }
-
-  fetch (endpoint) {
-    return window.fetch(endpoint)
-      .then(response => response.json())
+    axios.get('/api/mewls')
+      .then(response => {
+        console.log(response)
+        this.setState({
+          mewls: response.data
+        })
+      })
       .catch(error => console.log(error))
   }
 
-  getMewls () {
-    this.fetch('/api/mewls')
-      .then(mewls => {
-        if (mewls.length) {
-          this.setState({mewls: mewls})
-        } else {
-          this.setState({mewls: []})
-        }
+  addNewMewl(text) {
+    axios.post( '/api/mewls', { mewl: {text} })
+      .then(response => {
+        console.log(response)
+        const mewls = [ response.data, ...this.state.mewls ]
+        this.setState({mewls})
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
 
@@ -46,11 +52,13 @@ class App extends Component {
             </Item>
           ))}
         </Item.Group>
+      <NewMewlForm onNewMewl={this.addNewMewl} />
       </Container>
     : <Container text>
         <Dimmer active inverted>
           <Loader content='Loading' />
         </Dimmer>
+      <NewMewlForm onNewMewl={this.addNewMewl} />
       </Container>
   }
 }
